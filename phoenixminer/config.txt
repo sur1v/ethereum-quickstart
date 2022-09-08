@@ -18,5 +18,4 @@
 
 # Uncomment this to force the miner to read the dual-mining pools from the dpools.txt file
 # instead of the command-line
-#-dcoin blake2s
-
+#-dcoin blake2s 
