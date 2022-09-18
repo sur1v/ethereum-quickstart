@@ -1,9 +1,7 @@
 # ethereum-quickstart
-Ethereum mining clients, tools and scripts
+Ethereum mining client for quick start
 
 clients:
-- ethminer 0.18
-- phoenixminer 5.1c
+- phoenixminer 5.1c - Updated to work with $ETHW 
 
-tools:
-- amdvbflash 4.69 (atiflash)
+
