@@ -1,3 +1,274 @@
+PhoenixMiner 6.2c
+-----------------
+  - Using newer AMD RX470/480/570/580 kernels even on older drivers (from Windows
+    driver 19.2.1 and Linux driver 19.10). If you want to revert to the older
+    kernels on these drivers, use the new command line parameter -clabi 1
+  - Added a workaround for the SSL pools with self-signed or expired SSL certificate:
+    you can use the new command-line parameter -weakssl (for the pool specified by -pool),
+    or -weakssl2 (for the pool specified by -pool2), or the new WEAKSSL: 1 option for the
+    pools in epools.txt.
+    Note that this option must be specified independently for each pool: if you use
+    -weakssl on the command line (or in config.txt), it won't affect the pools specified
+    in epools.txt. Instead you need to add WEAKSSL: 1 for each desired pool in epools.txt
+  - Fixed a crash with Nvidia cards on some older drivers (e.g. 460.79, and 460.89).
+    If PhoenixMiner crashes or exits while showing "Initializing NVML..." try the
+    new command line parameter -nvmalt
+  - Validated support for AMD Windows drivers 22.4.2
+  - Other small fixes
+
+PhoenixMiner 6.1b
+-----------------
+  - Fixed an issue with expired SSL certificate that led to "certificate verify failed"
+    errors when connecting to some pools (notably Ethermine) when using SSL connections
+  - Now the miner will send SSL SNI host name which may be needed by some pools for SSL
+    certificate validation. To go back to the old behavior (no SNI host name), use the
+    new command-line parameter -nosni
+  - Added support for latest AMD Windows drivers up to version 22.4.1
+  - Other small fixes
+
+PhoenixMiner 6.0c
+-----------------
+  - Added support for new AMD Linux drivers up to version 21.50
+  - Other small fixes
+
+PhoenixMiner 6.0b
+-----------------
+  - Implemented partial unlocking of Nvidia LHR cards. By default they are detected
+    automatically, and unlocked with the default unlock intensity. If you want to try
+    higher (or lower) LHR unlock intensity, use the new -lhr command line parameter
+  - If an Nvidia LHR card locks up because of high -lhr (the default is -lhr 520, which
+    will work with most cards), the card will be unlocked again, and the -lhr value will
+    be lowered if necessary to avoid further lock ups
+  - Added support for new AMD Windows drivers up to driver version 22.2.3
+  - Show the DAG epoch and DAG size in the log
+  - Multiple other small fixes and improvements
+
+PhoenixMiner 5.9d
+-----------------
+  - Fixed issues with AMD RX6700XT with older drivers
+  - Other small fixes
+
+PhoenixMiner 5.9c
+-----------------
+  - Validated support for the latest AMD Windows drivers 21.11.3
+  - Fixed some pool connection issues
+
+PhoenixMiner 5.9b
+-----------------
+  - Show the GPU vendor name in the list of GPUs to make it easier to identify the GPUs
+  - Added support for the latest AMD Linux drivers 21.40.1
+  - Validated support for the latest AMD Windows drivers up to 21.11.2
+  - Fixed issues with AMD RX6700XT cards with the latest AMD and Linux drivers
+  - Fixed issues with AMD Vega, and Radeon VII cards on latest Windows and Linux drivers  
+  - Fixed crash with very old Nvidia drivers (3xx.x)
+  - Other small fixes
+
+PhoenixMiner 5.8c
+-----------------
+  - Fixed a crash on Linux when mining on RDNA2 AMD cards (RX6x00) with older drivers
+  - Removed error messages when mining on fanless Nvidia cards
+
+PhoenixMiner 5.8b
+-----------------
+  - Implemented optimized kernels for AMD RX6600XT cards
+  - Added support for the latest AMD Windows drivers (21.10.2, 21.10.1, 21.9.2, and 21.9.1).
+    Note that any AMD cards older than Polaris (RX470/480/570/580/590) won't work with
+    the latest AMD drivers.
+  - Added support for the latest AMD Linux drivers 21.30
+  - The latest AMD drivers (21.9.1 and later for Windows, and 21.30 and later for Linux)
+    dropped support for the older kernels, so we changed the kernels for AMD Polaris
+    cards to support these new drivers. There is a very small speed improvement (less
+    than 0.1% on average) with the new kernels and the new drivers on Polaris cards.
+  - Other fixes and small improvements
+
+PhoenixMiner 5.7b
+-----------------
+  - Implemented new "turbo" kernels for AMD Polaris cards (-clkernel 3) that
+    can work with the current DAG sizes over 4 GB. Note that -clkernel 3
+    uses double the VRAM and will provide slightly faster hashrate with slightly
+    higher power consumption. You can use the -rvram command-line parameter to
+    specify how much VRAM to be left unused
+  - Increased the maximum supported DAG epoch to 600 (i.e. until about Sep 2023)
+  - Implemented full hardware control for AMD RX6900/6800/6700 cards under Linux.
+    Note that with these cards under Linux you need to specify relative core voltage:
+    e.g. -cclock -50 will set the core voltage to be 50 mV under the default value
+  - Added ROCr kernels for Vega, Radeon VII and Navi cards. With these kernels
+    you will be able to run these cards with Linux drivers 20.45 and later but the
+    performance will be lower than with the older PAL drivers and kernels.
+    We recommend using AMD Linux driver 20.30 for all cards except RX6900/6800/6700
+  - Fixed an issue causing crashing with some RX6900/6800/6700 cards under Linux (there
+    is no need to run these cards with -clkernel 0 anymore)
+  - Added support for AMD Windows drivers up to 21.7.2. Note that Radeon VII
+    cards will not work with drivers 21.6.1 or higher - you need to use older
+    drivers for proper operation of these cards
+  - Added support for AMD Linux drivers up to 21.20 (use older drivers for Vega
+    or Radeon VII cards as they will not work with 21.20)
+  - Numerous other fixes and small improvements
+
+PhoenixMiner 5.6d
+-----------------
+  - Fixed problem with displaying GPU temperatures of some Nvidia GPUs
+
+PhoenixMiner 5.6c
+-----------------
+  - Lower percent of rejected/stale shares when mining on Nicehash
+  - Fixed problem with reading GPU temperature with some AMD GPUs/drivers
+  - Latest AMD Windows drivers 21.5.1 are already supported since 5.6b
+  - Other small fixes and improvements
+
+PhoenixMiner 5.6b
+-----------------
+  - Added support for showing GPU hotspot (junction), and video memory temperatures for
+    Nvidia GPUs. Note that the video memory temperature is only shown by some GPUs
+    (3080, 3090, possibly 2080Ti)
+  - The options -ttj, -ttmem, -tmaxj, and -tmaxmem now also work with Nvidia GPUs
+  - Added support for AMD Windows drivers 21.4.1
+  - Added support for AMD Linux drivers 21.10-1244864-ubuntu-18.04 and
+    21.10-1247438-ubuntu-20.04 (use these only with Polaris or older GPUs, or with
+    the latest RX6x00 GPUs, these drivers won't work with Vega, Radeon VII, or Navi GPUs)
+
+PhoenixMiner 5.6a
+-----------------
+  - Added native kernels for AMD RX6700 cards
+  - The specific hashrate is now shown in the form of kilo hashes per joule
+    (kH/J). Example: if a GPU has hashrate of 30 MH/s with 100W power usage, the
+    specific hashrate is 300 kH/J
+  - Added new command-line parameters -ttj and -ttmem, allowing automatic fan speed
+    control based on GPU hotspot (junction), and memory temperatures respectively.
+    Example: -ttmem 83 will keep the GPU memory temperature at or bellow 83C by
+    increasing the fan speed as necessary. These parameters can be combined with -tt,
+    as well as with each other. These options are supported only on AMD GPUs that
+    report junction and memory temperatures
+  - Added new command-line parameters -tmaxj and -tmaxmem, allowing to decrease the
+    GPU usage when the GPU hotspot (junction), or GPU memory temperatures are above the
+    specified thresholds. These options are supported only on AMD GPUs that report
+    junction and memory temperatures.
+  - Added support for AMD Windows drivers 21.3.2, and 21.3.1
+  - Added support for AMD Linux drivers 20.50.x (use these only with Polaris or older
+    GPUs, or with the latest RX6x00 GPUs, these drivers won't work with Vega, Radeon VII,
+    or Navi GPUs)
+  - Increase the max supported DAG epoch to 550 (should be enough to about Jan 2023)
+  - Turn off the zero fan feature on AMD cards whenever a fixed fan speed is used (e.g.
+    -tt -40), or when an auto fan with min fan speed is used (e.g. -tt 63 -minfan 35).
+    To disable this feature, add -fanstop 1 command-line parameter
+  - Full support for setting clocks, fan speeds, voltages, and memory timings of
+    AMD RX6900/6800/6700 cards
+  - When -mcdag 1 is specified under Linux, the miner will not wait for the daggen.sh
+    script to finish before starting to generate the DAGs. Instead it will for a fixed 7
+    seconds. This allows you to do all the following in the daggen.sh: turn off the
+    overclocking of Nvidia GPUs, sleep for 30-60 seconds, and then re-apply the
+    overclocking of the Nvidia GPUs
+
+PhoenixMiner 5.5c
+-----------------
+  - Added new -mcdag parameter to reset the memory overclock on Nvidia cards during
+    DAG generation. This may allow you to set higher memory overclock on your Nvidia cards
+    without risking corrupt DAG buffer, which can lead to excessive number of incorrect
+    shares. Use -mcdag 1 (by default the value is 0, which means turned off) to use this
+    new feature.
+    Under Linux this option will execute the `daggen.sh` script (if present in the
+    current directory) for each GPU, passing the GPU index as the first argument,
+    and PCIE bus ID as second argument. The miner will then wait for about 7 seconds
+    before starting DAG generation to allow the script enough time to reset the memory
+    overclock.
+  - The -tt parameter is now strictly for controlling the fan behavior. E.g. -tt 60 sets
+    auto-fan speed with target temperature 60C; -tt -70 sets fixed fan speed 70%; and
+    -tt 0 turns off the fan control. All these can be specified per GPU.
+  - There is a new -hwm parameter that allows controlling the frequency of the hardware
+    monitoring, which was also done by -tt in the previous versions of PhoenixMiner.
+  - Other small improvements and fixes
+
+PhoenixMiner 5.5b
+-----------------
+  - Added native kernels for AMD RX6800 and RX6900 GPUs. These are faster than
+    the generic kernels and produce a lot less stale shares
+  - Updated kernels for AMD Polaris, Vega and Navi GPUs that are slightly faster and use
+    less power than before when mining ETH. To use these updated kernels, you need to use
+    drivers 20.5.1 or later under Win10, or 20.10.x or later under Linux
+  - The Nvidia mining cards (P106, P104, etc.) can now use straps and hardware control
+    options (power limit, memory overclock, max temperature, etc.) under Windows
+  - Added support for AMD Linux drivers 20.45-1164792 and 20.45-1188099. Use this drivers
+    only if you have RX6800 or RX6900 GPU. WARNING: Vega and Navi GPUs wont' work with these
+    drivers!
+  - Automatically set -ttli instead of -tmax when the later is not supported by the
+    driver. This will throttle down the GPUs when they reach the specified temperature
+    to avoid overheating
+
+PhoenixMiner 5.4c
+-----------------
+  - Added support for DAG epoch up to 500
+  - Fixed crash (or GPUs not detected) when using the latest Windows Nvidia drivers 460.79
+    and 460.89
+  - Validated support for Nvidia RTX 3090, 3080, 3070, and 3060Ti GPUs. Those still use the
+    current kernels and there are no speed increases from the previous PhoenixMiner release
+  - Add support for AMD Linux driver 19.50-1011208-ubuntu-18.04 (used by some Linux mining
+    OSes and other software)
+  - Added new kernels to allow mining on AMD Hawaii cards (R9 390, etc.) with the current
+    and future DAG epochs (even with DAG buffer above 4GB for the 8GB cards)
+
+PhoenixMiner 5.4b
+-----------------
+  - New kernels for AMD Vega and Navi GPUs that are slightly faster when the DAG buffer is
+    approaching or passing 4GB in size (the current ETH DAG is close to 4GB). To use these
+    new kernels, you need to use drivers 20.5.1 or later under Win10,
+    or 20.10.x or later under Linux.
+  - Re-running auto-tune as needed when switching to a different DAG buffer type (e.g. when
+    switching from ETH to ETC, or back)
+  - Added support for the latest AMD Windows 10 drivers 20.12.1 and 20.11.3
+  - Fixed crash when trying to set -mvddc on very old AMD drivers (including the beta 
+    blockchain drivers from 2017)
+  - Other small fixes and improvements
+
+PhoenixMiner 5.3b
+-----------------
+  - Added support for the new ETCHash algorithm that will be used by the ETC blockchain from 
+    Nov 28, 2020. If you want to mine ETC, it is recommended to add '-coin etc' to your
+    command-line, or 'COIN: etc' to your epools.txt file. See the start_miner_etc.sh and
+    epools_example.txt files for examples
+
+PhoenixMiner 5.2e
+-----------------
+  - Fixed some problems with using 8GB AMD cards
+  - Fixed some problems with 4GB AMD cards when mining ETH or ETC
+  - Fixed crash when using the AMD beta blockchain drivers from 2017 (still not 
+    recommended to use these drivers)
+  - Added support for the latest AMD Windows 10 drivers 20.11.2
+
+PhoenixMiner 5.2d
+-----------------
+  - Added support for -daglim for AMD Fiji, Tonga, and Baffin cards with 4GB VRAM, so you
+    will be able to use them some time beyond epoch 373 (Windows), or 381 (Linux)
+  - New kernels for 4GB AMD cards with higher hashrate when -daglim is in effect
+  - Added -daglim and -rxboost support in Linux. The default -daglim value in Linux is
+    4064 for older drivers (before 19.50), and 4076 for the newer drivers
+  - Added support for the latest AMD Linux drivers 20.40-1147286 (however they seem to
+    have hardware control problems with some cards, so no need to upgrade for now)
+
+PhoenixMiner 5.2c
+-----------------
+  - The default DAG limit for 4GB AMD cards is increased to 4023 and is automatic by default -
+  you need to specify it manually only if the default is not right for your cards and driver
+  combination. This increases the speed substantially when DAG limit is in effect
+
+PhoenixMiner 5.2b
+-----------------
+  - Fixed some issues with allocation failures and crashes with some 8GB AMD cards
+  - The -dagrestart is set to 1 whenever -daglim is active for 4GB AMD cards
+
+PhoenixMiner 5.2a
+-----------------
+  - Added new -daglim parameter to allow a few more weeks of work for 4 GB AMD Polaris
+    cards. Use -daglim 1 for automatic operation, or specify a concrete value for the
+    maximum DAG size (example: -daglim 4000 will set max DAG size 4000 MB)
+  - Added -rxboost parameter (also accessible via -vmr) to boost the performance of GDDR5
+    based AMD cards (Polaris or earlier)
+  - Added memory straps support for AMD Vega cards. Use the -straps command-line option
+    to activate it (example: -straps 1 will activate the lowest strap level)
+  - AMD cards with more than 4 GB RAM will now work without issues until DAG epoch 450
+  - The Nvidia memory timing (straps) option is improved and now is turned off during
+    DAG generation to avoid any possible instability issues
+  - Many other small improvements and fixes
+
 PhoenixMiner 5.1c
 -----------------
   - Added more Pascal-based Nvidia cards to the list of supported Nvidia cards for memory timing (straps)

@@ -1,4 +1,4 @@
--[ PhoenixMiner 5.1c documentation ]-
+-[ PhoenixMiner 6.2c documentation ]-
 
 * Introduction
 
@@ -48,26 +48,24 @@
 Introduction
 ************
 
-PhoenixMiner is fast (arguably the fastest) **Ethash** (ETH, ETC,
+PhoenixMiner is fast (arguably the fastest) **Ethash** (Ethereum, ETC,
 etc.) miner that supports both AMD and Nvidia cards (including in
 mixed mining rigs). It runs under Windows x64 and Linux x64 and has a
 developer fee of 0.65% (the lowest in the industry). This means that
 every 90 minutes the miner will mine for us, its developers, for 35
 seconds.
 
-PhoenixMiner also supports **Ubqhash** for mining UBQ, **ProgPOW** for
-mining BCI, and **dual mining** Ethash/Ubqhash with **Blake2s**.
+PhoenixMiner also supports **ETCHash** for mining ETC, **Ubqhash** for
+mining UBQ, **ProgPOW** for mining BCI, and **dual mining**
+Ethash/ETCHash/Ubqhash with **Blake2s**.
 
-The hashrate is generally higher than Claymore’s Ethereum miner (we
+The hashrate is generally higher than Claymore's Ethereum miner (we
 have measured about 0.4-1.3% hashrate improvement but your results may
 be slightly lower or higher depending on the GPUs, drivers, and other
-variables). To achieve highest possible hashrate on AMD cards you may
-need to manually adjust the GPU tune factor (a number from 8 to about
-400, which can be changed interactively with the "+" and "-" keys
-while the miner is running).
+variables).
 
-If you have used Claymore’s Dual Ethereum miner, you can switch to
-PhoenixMiner with minimal hassle as we support most of Claymore’s
+If you have used Claymore's Dual Ethereum miner, you can switch to
+PhoenixMiner with minimal hassle as we support most of Claymore's
 command-line options and configuration files.
 
 Please note that PhoenixMiner is extensively tested on many mining
@@ -85,9 +83,9 @@ Quick start
 Download and install
 ====================
 
-You can download PhoenixMiner 5.1c from here:
+You can download PhoenixMiner 6.2c from here:
 
-https://mega.nz/#F!2VskDJrI!lsQsz1CdDe8x5cH3L8QaBw (MEGA)
+https://phoenixminer.info/downloads/
 
 Note that you need the file "PhoenixMiner_NVRTC_Windows.zip" only if
 you want to mine BCI with Nvdia cards under Windows.
@@ -95,8 +93,8 @@ you want to mine BCI with Nvdia cards under Windows.
 If you want to check the integrity of the downloaded file, you can use
 the hashes (checksums) that are provided in our bitcointalk.org thread
 (https://bitcointalk.org/index.php?topic=2647654.0) or the file
-"PhoenixMiner_5.1c_checksums.txt" which is in the same MEGA folder as
-the main PhoenixMiner archive.
+"PhoenixMiner_6.2c_checksums.txt" which is one of the files that you
+can download from our website.
 
 Note: **Linux:** Under Linux you need to replace "PhoenixMiner.exe"
   with "./PhoenixMiner" in the command-line examples below.
@@ -114,9 +112,6 @@ ethermine.org (ETH):
 ethermine.org (ETH, secure connection):
       PhoenixMiner.exe -pool ssl://eu1.ethermine.org:5555 -pool2 ssl://us1.ethermine.org:5555 -wal YourEthWalletAddress.WorkerName -proto 3
 
-ethpool.org (ETH):
-      PhoenixMiner.exe -pool eu1.ethpool.org:3333 -pool2 us1.ethpool.org:3333 -wal YourEthWalletAddress.WorkerName -proto 3
-
 nanopool.org (ETH):
       PhoenixMiner.exe -pool eth-eu1.nanopool.org:9999 -wal YourEthWalletAddress/WorkerName -pass x
 
@@ -133,10 +128,10 @@ coinotron.com (ETH):
       PhoenixMiner.exe -pool coinotron.com:3344 -wal YourLoginName.WorkerName -pass x -proto 1
 
 ethermine.org (ETC):
-      PhoenixMiner.exe -pool eu1-etc.ethermine.org:4444 -wal YourEtcWalletAddress.WorkerName
+      PhoenixMiner.exe -pool eu1-etc.ethermine.org:4444 -wal YourEtcWalletAddress.WorkerName -coin etc
 
 epool.io (ETC):
-      PhoenixMiner.exe -pool eu.etc.epool.io:8008 -pool2 us.etc.epool.io:8008 -worker WorkerName -wal YourEtcWalletAddress -pass x -retrydelay 2
+      PhoenixMiner.exe -pool eu.etc.epool.io:8008 -pool2 us.etc.epool.io:8008 -worker WorkerName -wal YourEtcWalletAddress -pass x -retrydelay 2 -coin etc
 
 whalesburg.com (ethash auto-switching):
       PhoenixMiner.exe -pool proxy.pool.whalesburg.com:8082 -wal YourEthWalletAddress -worker WorkerName -proto 2
@@ -210,12 +205,17 @@ Features, requirements, and limitations
 * Advanced statistics: actual difficulty of each share as well as
   effective hashrate at the pool
 
-* Supports AMD RX5500, RX5700, Radeon VII, Vega,
-  590/580/570/480/470, 460/560, Fury, 390/290 and older AMD GPUs with
-  enough VRAM
+* Supports AMD RX6600, RX6700, RX6800, RX6900, RX5500, RX5600,
+  RX5700, Radeon VII, Vega, 590/580/570/480/470, 460/560, Fury,
+  390/290 and older AMD GPUs with enough VRAM
 
-* Supports Nvidia 20x0, 16x0, 10x0 and 9x0 series as well as older
-  cards with enough VRAM
+* Supports Nvidia 30x0, 20x0, 16x0, 10x0 and 9x0 series as well as
+  older cards with enough VRAM
+
+* Partial unlocking of Nvidia LHR cards (applied automatically)
+
+* Nvidia LHR lock detection and real-time adjustment of the unlock
+  intensity
 
 * DAG file generation in the GPU for faster start-up and DAG epoch
   switches
@@ -234,6 +234,10 @@ Features, requirements, and limitations
 
 * GPU tuning for the AMD GPUs to achieve maximum performance with
   your rig
+
+* Supports the **ETCHash** algorithm for the ETC coin. Please note
+  that you should add "-coin etc" to your command line (or "COIN: etc"
+  to your "epools.txt file") in order to mine ETC
 
 * Supports devfee on alternative ethash currencies like ETC, EXP,
   Music, UBQ, Pirl, Ellaism, Metaverse ETP, WhaleCoin, and Victorium.
@@ -399,6 +403,10 @@ Pool options
 -stales <n>
    Submit stales to ethash pool: 1 - yes (default), 0 - no
 
+-weakssl
+   Skip the strict SSL certificate validation for the main ethash pool
+   (the one specified with the "-pool" option)
+
 -pool2 <host:port>
    Failover ethash pool address. Same as "-pool" but for the failover
    pool
@@ -425,6 +433,10 @@ Pool options
 
 -stales2 <n>
    Submit stales to the failover pool: 1 - yes (default), 0 - no
+
+-weakssl2
+   Skip the strict SSL certificate validation for the failover ethash
+   pool (the one specified with the "-pool2" option)
 
 -dpool <host:port>
    Dual mining pool address
@@ -474,6 +486,9 @@ General pool options
    Report hashrate to the pool: 1 - yes, 0 - no (1 is the default), 2
    - (for solo mining only) use alternative name of the report method
    "eth_submitHashRate" instead of "eth_submitHashrate"
+
+-nosni
+   Do not send SNI host name on SSL connections
 
 
 Benchmark mode
@@ -534,6 +549,11 @@ Mining options
 -nvidia
    Use only Nvidia cards
 
+-nvmalt
+   Use alternative NVML initialization. Use this option if the program
+   crashes or exits while showing "Initializing NVML..." on the
+   console.
+
 -gpus <123 ..n>
    Use only the specified GPUs (if more than 10, separate the indexes
    with comma)
@@ -576,6 +596,10 @@ Mining options
    Use new AMD kernels if supported (0: no, 1: yes; default: 1). You
    may specify this option per-GPU.
 
+-clabi <n>
+   Use OpenCL 1.x even if 2.x is supported by the driver (0: no, 1:
+   yes; default: 0)
+
 -clf <n>
    AMD kernel sync (0: never, 1: periodic; 2: always; default: 1). You
    may specify this option per-GPU.
@@ -599,6 +623,12 @@ Mining options
    Nvidia kernel sync (0: never, 1: periodic; 2: always; 3: forced;
    default: 1). You may specify this option per-GPU.
 
+-lhr <n>
+   Nvidia LHR unlock (0: no, -1: automatic, 100-1000: unlock
+   intensity; default: -1). If this option is not specified (or
+   specified as -1), the default LHR unlock intensity is 520. You may
+   specify this option per-GPU.
+
 -mode <n>
    Mining mode (0: dual mining if dual pool(s) are specified; 1:
    ethash only even if dual pools are specified). You may specify this
@@ -614,6 +644,17 @@ Mining options
    Allocate DAG buffers big enough for n epochs ahead (default: 2) to
    avoid allocating new buffers on each DAG epoch switch, which should
    improve DAG switch stability. You may specify this option per-GPU.
+
+-daglim <n>
+   (AMD Polaris, Baffin, Tonga, or Fiji cards only) Limit the DAG size
+   to <n> MB to allow mining on 4 GB cards a few weeks after epoch 373
+   on Windows (or 381 on Linux). The possible values except the exact
+   DAG limit are also 0 (turn off the DAG limit), 1 (automatic DAG
+   limit size, usually 4023 MB under Windows; this is the default).
+   Note that the hashrate will drop significantly with each epoch
+   after the DAG limit is in effect. If the hashrate drops too much
+   (e.g. from 28 MH/s to just 2-3 MH/s, you need to use lower value,
+   for example "-daglim 3996" or even lower.
 
 -dagrestart <n>
    Restart the miner when allocating buffer for a new DAG epoch. The
@@ -751,10 +792,28 @@ Mining options
 Hardware control options (you may specify these options per-GPU)
 ================================================================
 
+-hwm <n>
+   Frequency of hardware monitoring (one setting for all cards, the
+   default is 1): 0 - no HW monitoring or control, 1 - normal
+   monitoring, 2 to 5 - less frequent monitoring.
+
 -tt <n>
-   Set fan control target temperature (special values: 0 - no HW
-   monitoring on ALL cards, 1-4 - only monitoring on all cards with
-   30-120 seconds interval, negative - fixed fan speed at n %)
+   Set fan control target temperature (special values: 0 - no fan
+   control, negative - fixed fan speed at n %)
+
+-ttj <n>
+   Set fan control target hotspot (junction) temperature (can be used
+   only on GPUs that report the junction temperature). Example: "-ttj
+   75" will keep the junction temperature at or bellow 75C by
+   increasing the fan speed as necessary. This parameter can be
+   combined with "-tt", and "-ttmem"
+
+-ttmem <n>
+   Set fan control target video memory temperature (can be used only
+   on GPUs that report the VRAM temperature). Example: "-ttmem 83"
+   will keep the GPU memory temperature at or bellow 83C by increasing
+   the fan speed as necessary. This parameter can be combined with
+   "-tt", and "-ttj"
 
 -hstats <n>
    Level of hardware monitoring: 0 - temperature and fan speed only; 1
@@ -785,6 +844,12 @@ Hardware control options (you may specify these options per-GPU)
 -fanmax <n>
    Set fan control max speed in % (-1 for default)
 
+-fanstop <n>
+   (*AMD cards under Windows only*) If set to 0 (the default), and a
+   fixed fan speed (e.g. "-tt -40"), or "-fanmin" is used, the miner
+   will not allow the fans to stop rotating. If set to 1, PhoenixMiner
+   will not interfere in the fan stop function of the card.
+
 -fcm <n>
    Set fan control mode (0 - auto, 1 - use VBIOS fan control, 2 -
    forced fan control; default: 0)
@@ -798,7 +863,9 @@ Hardware control options (you may specify these options per-GPU)
    Vega, 4 - Radeon VII, Navi; default: 0)
 
 -tmax <n>
-   Set fan control max temperature (0 for default)
+   Set fan control max temperature (0 for default). If this feature is
+   not supported by the driver, "-ttli" is set to the same temperature
+   instead
 
 -powlim <n>
    Set GPU power limit in % (from -75 to 75, 0 for default)
@@ -840,15 +907,43 @@ Hardware control options (you may specify these options per-GPU)
    throttling the GPUs without using the fans to properly cool them
    first.
 
+-tmaxj <n>
+   Lower GPU usage when hotspot (junction) temperature is above n deg
+   C (can be used only on GPUs that report the junction temperature).
+   The default value is 0, which means do not lower the usage
+   regardless of the GPU hotspot temperature. If you are using both
+   "-ttj" and "-tmaxj" options, the temperature in "-ttj" should be
+   lower than the "-tmaxj" to avoid throttling the GPUs without using
+   the fans to properly cool them first.
+
+-tmaxmem <n>
+   Lower GPU usage when VRAM temperature is above n deg C (can be used
+   only on GPUs that report the memory temperature). The default value
+   is 0, which means do not lower the usage regardless of the GPU
+   memory temperature. If you are using both "-ttmem" and "-tmaxmem"
+   options, the temperature in "-ttmem" should be lower than the
+   "-tmaxmem" to avoid throttling the GPUs without using the fans to
+   properly cool them first.
+
 -straps <n>
-   Memory strap level (Nvidia cards 10x0 series only). The possible
-   values are 0 to 6. 0 is the default value and uses the default
-   timings from the VBIOS. Each strap level corresponds to a
+   Memory strap level (Nvidia cards 10x0 and P10x series only). The
+   possible values are 0 to 6. 0 is the default value and uses the
+   default timings from the VBIOS. Each strap level corresponds to a
    predefined combination of memory timings ("-vmt1", "-vmt2",
    "-vmt3", "-vmr"). Strap level 3 is the fastest predefined level and
    may not work on most cards, 1 is the slowest (but still faster than
    the default timings). Strap levels 4 to 6 are the same as 1 to 3
    but with less aggressive refresh rates (i.e. lower "-vmr" values).
+
+-straps <n>
+   Memory strap level (AMD Vega cards only). The possible values are 0
+   to 5. 0 is the default value and uses the default timings from the
+   VBIOS. Each strap level corresponds to a predefined combination of
+   memory timings. Strap level 5 is the fastest level and may not work
+   on most cards, 1 is the slowest (but still faster than the default
+   timings). Note that straps for AMD cards are experimental and may
+   lead to crashes or instability. "-vmt1", "-vmt2", and "-vmt3"
+   parameters have no effect on AMD cards
 
 -vmt1 <n>
    Memory timing parameter 1 (0 to 100, default 0)
@@ -860,14 +955,42 @@ Hardware control options (you may specify these options per-GPU)
    Memory timing parameter 3 (0 to 100, default 0)
 
 -vmr <n>
-   Memory refresh rate (0 to 100, default 0)
+   Memory refresh rate (0 to 100, default 0). For AMD cards you may
+   also use "-rxboost"
 
 -nvmem <n>
    Force using straps on unsupported Nvidia GPUs (0 - do not force, 1
    - GDDR5, 2 - GDDR5X). Make sure that the parameter matches your GPU
    memory type. You can try this if your card is Pascal-based but when
-   you try to use -straps or any other memory timing option, the card
-   is shown as “unsupported”.
+   you try to use "-straps" or any other memory timing option, the
+   card is shown as “unsupported”.
+
+-rxboost <n>
+   Memory refresh rate on AMD cards (0 - default value, 1 - predefined
+   value that should work on most cards, 2 to 100 - increasingly
+   aggressive settings). If you want to fine tune the value, you may
+   run the miner with "-rxboost 1", write down the corresponding
+   "-vmr" values that are showed in the log file, and then use "-vmr"
+   instead with adjusted values.
+
+-vmdag <n>
+   Reset straps to default during DAG generation (default: 1)
+
+-mcdag <n>
+   Reset GPU memory clock to default during DAG generation. Nvidia
+   only, default: 0 (turned off). This may allow you to set higher
+   memory overclock on your Nvidia cards without risking corrupt DAG
+   buffer, which can lead to excessive number of stale shares.
+
+   Under Linux this option will execute the "daggen.sh" script (if
+   present in the current directory) for each GPU, passing the GPU
+   index as the first argument, and PCIE bus ID as second argument.
+   The miner will not wait for the "daggen.sh" script to finish before
+   starting to generate the DAGs. Instead it will for a fixed 7
+   seconds. This allows you to do all the following in the
+   "daggen.sh": turn off the overclocking of Nvidia GPUs, sleep for
+   30-60 seconds, and then  re-apply the overclocking of the Nvidia
+   GPUs.
 
 
 General Options
@@ -942,7 +1065,7 @@ commands in the console window by pressing one of these keys:
 
 * "p"   Pause/resume the whole miner
 
-* "+",``-`` Increase/decrease GPU tuning parameter
+* "+", "-" Increase/decrease GPU tuning parameter
 
 * "g"   Reset the GPU tuning parameter (and stop auto-tuning if
   active)
@@ -979,11 +1102,13 @@ PhoenixMiner with configuration files. If you run PhoenixMiner.exe
 without any options, it will search for the file "config.txt" in the
 current directory and will read its command-line options from it. If
 you want, you can use file with another name by specifying its name as
-the only command-line option when running PhoenixMiner.exe.
+the only command-line option when running PhoenixMiner.
 
-Note that PhoenixMiner supports the same configuration files as
-Claymore’s dual Ethereum miner so you can use your existing
-configuration files without any changes.
+You can also combine the config.txt file with some options that are
+specified directly on the command-line by using the "-config <name>"
+command-line option. It will instruct the miner to load a file with
+configuration options that will be added to the options read from the
+command-line.
 
 You will find an example "config.txt" file in the PhoenixMiner’s
 directory.
@@ -1001,27 +1126,29 @@ time when the miner starts, the "dpools.txt" file is only read if you
 specify a dual mining pool on the command line with "-dpool", or if
 you add the "-dcoin blake2s" command-line option.
 
-You can combine the config.txt file with some options that are
-specified directly on the command-line by using the "-config <name>"
-command-line option. It will instruct the miner to load a file with
-configuration options that will be added to the options read from the
-command-line.
+Note that PhoenixMiner supports the same configuration files as
+Claymore’s dual Ethereum miner so you can use your existing
+configuration files without any changes.
 
 The advantages of using "config.txt" and "epools.txt"/"dpools.txt"
-files are: * If you have multiple rigs, you can copy and paste all
-settings with these files * If you control your rigs via remote
-control, you can change pools and even the miner options by uploading
-new "epools.txt" files to the miner, or by uploading new "config.txt"
-file and restarting the miner.
+files are:
+
+* If you have multiple rigs, you can copy and paste all settings
+  with these files
+
+* If you control your rigs via remote control, you can change pools
+  and even the miner options by uploading new "epools.txt" files to
+  the miner, or by uploading new "config.txt" file and restarting the
+  miner.
 
 
 Remote monitoring and management
 ********************************
 
-PhoenixMiner is fully compatible with Claymore’s dual miner protocol
+PhoenixMiner is fully compatible with Claymore's dual miner protocol
 for remote monitoring and management. This means that you can use any
-tools that are build to support Claymore’s dual miner, including the
-“Remote manager” application that is part of Claymore’s dual miner
+tools that are build to support Claymore's dual miner, including the
+"Remote manager" application that is part of Claymore's dual miner
 package.
 
 We are working on much more powerful and secure remote monitoring and
@@ -1038,6 +1165,10 @@ Here are some important notes about the hardware control options:
 * Most recent Nvidia drivers require running as administrator (or as
   root under Linux) to allow hardware control, so you must run
   PhoenixMiner as administrator for the VRAM timing options to work.
+
+* The AMD memory timing options ("-rxboost", "-vmr", "-straps"),
+  with the notable exception of "-mt", also require running as
+  administrator (or as root under Linux)
 
 * When using the VRAM timing options ("-straps", "-vmt1", "-vmt2",
   "-vmt3", "-vmr"), start with lower values and make sure that the
@@ -1093,7 +1224,7 @@ Here are some important notes about the hardware control options:
 
 * In order to have working hardware control under Linux, you need
   relatively recent kernel (4.15 or later), recent AMD drivers (we
-  tested with 19.30-855429), PhoeniMiner must be running as root
+  tested with 19.30-855429), PhoenixMiner must be running as root
   ("sudo ./PhoenixMiner"), AND you need to add the following boot
   parameter to the Linux kernel: "amdgpu.ppfeaturemask=0xffffffff"
 
@@ -1137,7 +1268,7 @@ miners?
 Q004: What is a stale share?
    A: The ethash coins usually have very small average block time (15
    seconds in most instances). On the other hand, to achieve high
-   mining speed we must keep the GPUs busy so we can’t switch the
+   mining speed we must keep the GPUs busy so we can't switch the
    current job too often. If our rigs finds a share just after the
    someone else has found a solution for the current block, our share
    is a stale share. Ideally, the stale shares should be minimal as
@@ -1149,15 +1280,15 @@ Q004: What is a stale share?
 Q005: Why is the percentage of stale shares reported by PhoenixMiner
 smaller than the one shown by the pool?
    A: PhonixMiner can only detect the stale shares that were
-   discovered after it has received a new job (i.e. the “very stale”)
+   discovered after it has received a new job (i.e. the "very stale")
    shares. There is additional latency in the pool itself, and in the
    network connection, which makes a share stall even if it was
-   technically found before the end of the block from the miner’s
+   technically found before the end of the block from the miner's
    point of view. As pools only reports the shares as accepted or
    rejected, there is no way for the miner to determine the stale
-   shares from the pool’s point of view.
+   shares from the pool's point of view.
 
-Q006: What is the meaning of the “actual share difficulty” shown by
+Q006: What is the meaning of the "actual share difficulty" shown by
 PhoenixMiner when a share is found?
    A: It allows you to see how close you were to finding an actual
    block (a rare event these days for the most miners with reasonable-
@@ -1166,7 +1297,7 @@ PhoenixMiner when a share is found?
    exceeded it with your maximum share difficulty. If you did, you
    have found a block (which is what the mining is all about).
 
-Q007: What is the meaning of “effective speed” shown by PhoenixMiner’s
+Q007: What is the meaning of "effective speed" shown by PhoenixMiner's
 statistics?
    A: This is a measure of the actually found shares, which determines
    how the pool sees your miner hashrate. This number should be close
@@ -1191,7 +1322,7 @@ one shown by PhoenixMiner?
 Troubleshooting
 ***************
 
-P001: I’m using AMD RX470/480/570/580 or similar card and my hashrate
+P001: I'm using AMD RX470/480/570/580 or similar card and my hashrate
 dropped significantly in the past few months for Ethereum and Ethereum
 classic!
    S: This is known problem with some cards. For the newer cards
@@ -1206,7 +1337,7 @@ P002: My Nvidia GTX9x0 card is showing very low hashrate under Windows
    S: While there is a (convoluted) workaround, the best solution is
    to avoid Windows 10 for these cards - use Windows 7 instead.
 
-P003: I’m using Nvidia GTX970 (or similar) card and my hashrate
+P003: I'm using Nvidia GTX970 (or similar) card and my hashrate
 dropped dramatically for Ethereum or Ethereum classic!
    S: GTX970 has enough VRAM for larger DAGs but its hashate drops
    when the DAG size starts to exceed 2 GB or so. Unlike the AMD
@@ -1214,20 +1345,20 @@ dropped dramatically for Ethereum or Ethereum classic!
    recommend using these cards to mine EXP, Musicoin, UBQ or PIRL with
    the same speed that you used to ETH before the drop.
 
-P004: I can’t see some of my cards (or their fan speed and
+P004: I can't see some of my cards (or their fan speed and
 temperature) when using Windows Remote Desktop (RDP)!
    S: This is a known problem with RDP. Use VNC or TeamViewer instead.
 
 P005: On Windows 10, if you click inside the PhoenixMiner console, it
 freezes!
    S: This is a known problem on Windows 10, related to so called
-   “Quick Edit” feature of the command prompt window. From
+   "Quick Edit" feature of the command prompt window. From
    PhoenixMiner 2.6, the QuickMode is disabled by default, so you
-   shouldn’t experience this problem. If you still, do, read here how
+   shouldn't experience this problem. If you still, do, read here how
    to solve it: https://stackoverflow.com/q/33883530
 
 P006: Immediately after starting, PhoenixMiner stops working and the
-last message is “debugger detected”
+last message is "debugger detected"
    S: If you have only Nvidia cards, add the option -nvidia to the
    PhoenixMiner.exe command line. If you have only AMD cards, add the
    option -amd to the command line.
@@ -1244,15 +1375,16 @@ DAG buffer and shuts down.
 P008: The miner sometimes crashes when the DAG epoch change.
    S: During DAG generation, the GPUs are loaded more than during the
    normal operation. If you have overclocked or undervolted the GPUs
-   “to the edge”, the DAG generation ofter pushes them “over the
-   edge”. Another possible reason for the crash (especially if the
+   "to the edge", the DAG generation ofter pushes them "over the
+   edge". Another possible reason for the crash (especially if the
    whole rig crashes) is the higher power usage during this process.
    You can lower the DAG generation speed by specifying the -lidag
    command-line option. The possible values are 0 (no slow down), 1,
    2, and 3 (max slowdown). In order to check if your rig would be
    stable during DAG generation, run it in benchmark mode by
    specifying the -bench 170 command line option. Then every time when
-   you press the key ‘d’ the miner will advance to the next DAG epoch,
+   you press the key 'd' the miner will advance to the next DAG epoch,
    and you will be able to see if it is stable during multiple DAG
-   generations. If it isn’t you can try to alter the -lidag and -eres
+   generations. If it isn't you can try to alter the -lidag and -eres
    command line options until the desired stability is achieved.
+
